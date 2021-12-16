@@ -1,6 +1,6 @@
 ## A
 ## B
-  - ber_home/ber_away - 0 or 1 depending on whether team scored in that minute
+  - ber_home/ber_away - result of individual Bernoulli trial, 0 or 1 depending on whether team scored in that minute
 ## C
 ## D
 ## E
