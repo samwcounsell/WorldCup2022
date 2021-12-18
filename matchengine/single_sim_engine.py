@@ -19,7 +19,7 @@ def single_sim_match(home, away):
         score_home, score_away = score_home + minute_home, score_away + minute_away
 
     # Printing the match result (Replace this with post_match later)
-    print(f"\nFinal Score: {' '.join(map(str, score_home))} - {' '.join(map(str, score_away))}")
+    print(f"\nFinal Score: {home} {' '.join(map(str, score_home))} - {' '.join(map(str, score_away))} {away}")
 
     # run post_match here
 
@@ -38,6 +38,8 @@ def minute(p_home, p_away):
 
 # calculates detail of main events i.e., goals for a multi_sim_match
 def single_sim_event():
+
+    filler_line_of_code = 1
     # import player_lists and their ratings
     # return scorers/assisters
 
@@ -45,8 +47,6 @@ def single_sim_event():
     # Calculate assisters
 
     # Provide commentary
-
-
 
 # Variable Glossary
 # home/away - the two teams playing the match

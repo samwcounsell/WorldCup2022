@@ -47,6 +47,6 @@ def wc_group_draw_slow():
 # Variable Glossary
 # group_names - list of group names, also used as variable generate groups variable from
 # groups - list containing all groups which are themselves lists stored within the list 'groups'
-# pot - contains group_number teams, seeded group that teams are distributed into the groups from. One team per pot goes into each group.
+# pot - contains group_number teams, seeded group that teams are distributed into the groups from, one team per pot goes into each group
 # group_number - number of groups
 # group_size - number of teams in each group
