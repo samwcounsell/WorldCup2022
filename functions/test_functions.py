@@ -65,4 +65,4 @@ plt.axis('tight')
 the_table.auto_set_font_size(False)
 the_table.set_fontsize(12)
 
-plt.show()
+# plt.show()
