@@ -1,6 +1,7 @@
 import pandas as pd
 import random
 
+
 def group_draw(group_number, group_size):
 
     # these are currently for testing purposes
@@ -36,11 +37,12 @@ def group_draw(group_number, group_size):
 
     return groups
 
-def wc_group_draw():
+
+# def wc_group_draw():
 
     # TODO: draw teams with correct rules for confederation numbers
     
-def wc_group_draw_slow():
+# def wc_group_draw_slow():
 
     # TODO: draw one team at a time to add suspense to the draw
 

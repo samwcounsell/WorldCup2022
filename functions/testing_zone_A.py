@@ -1,4 +1,6 @@
 import random
+import pandas as pd
+from functions.testing_zone_B import add_score_1, add_score_2
 
 teams = ["England", "Italy", "Spain", "France", "Brazil", "Argentina"]
 
@@ -32,4 +34,10 @@ def group_simulation(teams):
 
         teams.insert(1, teams.pop())
 
-group_simulation(teams)
+# group_simulation(teams)
+
+def zone_A():
+
+    df = add_score_2()
+
+    return df
