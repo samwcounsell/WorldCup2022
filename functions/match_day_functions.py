@@ -15,3 +15,5 @@ def match_data_collection(home, away):
     # Retrieve all relevant data from nation_df, player df
 
     return p_home, p_away, home_players, away_players, home_ratings, away_ratings
+
+
