@@ -4,11 +4,12 @@ import pandas as pd
 nation_df = pd.read_csv("../data/nation_data.csv")
 player_df = pd.read_csv("../data/player_data.csv")
 
-
+home = 'Japan'
 # test function to retrieve teams lineup as a list
-home_lineup = player_df.loc[player_df['Country'] == 'Japan']['Name'].tolist()
-print(', '.join(map(str, home_lineup)))
+print(f"\n{home} Line Up: {', '.join(player_df.loc[player_df['Country'] == home]['Name'].tolist())}")
 
+# test function for more detailed lineup
+print(f"\n{home} Line Up:\n\n GK:{', '.join(player_df.loc[((player_df['Country'] == home) & (player_df['Position'] == 'GK'))]['Name'].tolist())}\n Defence: {', '.join(player_df.loc[((player_df['Country'] == home) & (player_df['Position'] == 'DEF'))]['Name'].tolist())}\n Midfield: {', '.join(player_df.loc[((player_df['Country'] == home) & (player_df['Position'] == 'MID'))]['Name'].tolist())}\n Attack: {', '.join(player_df.loc[((player_df['Country'] == home) & (player_df['Position'] == 'ATK'))]['Name'].tolist())}")
 
 # retrieves all data from the dataframes, ready for the match engine
 def match_data_collection(home, away):

@@ -39,7 +39,6 @@ def minute(p_home, p_away):
 # calculates detail of main events i.e., goals for a multi_sim_match
 def single_sim_event():
 
-    filler_line_of_code = 1
     # import player_lists and their ratings
     # return scorers/assisters
 

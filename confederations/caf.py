@@ -9,7 +9,7 @@ data = [player_data, nation_data]
 
 def caf():
 
-    # TODO: Add if loop for if we are running more than one simulation
+    # TODO: Add if loop for running more than one simulation
 
     confederation_introduction("CAF", data)
 
