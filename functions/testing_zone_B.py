@@ -1,6 +1,6 @@
 import pandas as pd
 
-p_df = pd.read_csv('poc.csv')
+# p_df = pd.read_csv('poc.csv')
 
 def reset():
 

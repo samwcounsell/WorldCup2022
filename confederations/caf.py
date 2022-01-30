@@ -7,7 +7,7 @@ import pandas as pd
 player_data, nation_data = pd.read_csv('../functions/test.csv'), pd.read_csv('../functions/test.csv')
 data = [player_data, nation_data]
 
-def caf():
+def caf(data):
 
     # TODO: Add if loop for running more than one simulation
 

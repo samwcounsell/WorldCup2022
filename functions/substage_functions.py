@@ -46,16 +46,19 @@ def group_draw(group_number, group_size):
 
     # TODO: draw one team at a time to add suspense to the draw
 
-def group_simulation(teams):
+def group_simulation(teams, legs):
+
+    # TODO: create group dataframe
+
+    # # for odd numbered groups we append a dummy team for correct fixture order
+    if len(teams) % 2 != 0:
+
+        teams.append("dummy")
 
     n = len(teams)
 
-    # only works currently if N even
-    # TODO: add if loop and version for odd numbered groups with a dummy team, i.e. if n odd teams.append("dummy")
-
-
-    # number_of_matches can be replaced by either group_size - 1 or 2 * (group_size - 1) depending on number of legs
-    for j in range(n - 1):
+    # number of matchdays to simulate is legs multiplied number of teams minus one
+    for j in range(legs * (n - 1)):
 
         # proof of function working
         print(f"\nRound {j + 1}")
@@ -68,7 +71,10 @@ def group_simulation(teams):
 
                 participants = teams[0:2]
                 # printing as proof of function
-                print(participants)
+                if 'dummy' in participants:
+                    pass
+                else:
+                    print(participants)
                 # TODO: add run match function(teams, ...)
 
             # then the remaining teams play from out to in
@@ -77,13 +83,17 @@ def group_simulation(teams):
                 home, away = teams[i + 1], teams[n - i]
                 participants = [home, away]
                 # printin as proof of function
-                print(participants)
+                if 'dummy' in participants:
+                    pass
+                else:
+                    print(participants)
                 # TODO: add run match function(teams, ...)
 
         # second element of list moved to back, functions like 2 column system for drawing fixtures where all teams
         # except a fixed team cycle clockwise
         teams.insert(1, teams.pop())
 
+    # return final group table
 
 # Variable Glossary
 # group_names - list of group names, also used as variable generate groups variable from
