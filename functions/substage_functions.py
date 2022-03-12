@@ -1,13 +1,16 @@
+import pandas
 import pandas as pd
 import random
 
 
-def group_draw(group_number, group_size):
+def group_draw(group_number, group_size, teams):
+    # group number is an integer (number of groups)
+    # group size is an integer (number of teams per group)
+    # teams is a list
 
-    # these are currently for testing purposes
+    # list of group names
     group_names = ["Group A", "Group B", "Group C", "Group D", "Group E", "Group F", "Group G", "Group H", "Group I",
                    "Group J", "Group K", "Group L"]
-    df = pd.read_csv('test.csv')
 
     # getting number of groups from group_names list
     groups = group_names[:group_number]
@@ -16,7 +19,7 @@ def group_draw(group_number, group_size):
     for i in range(group_size):
 
         # collecting list of teams in the pot
-        pot = df.loc[group_number * i: (i + 1) * group_number - 1]["Country"].tolist()
+        pot = teams[group_number * i: (i + 1) * group_number]
         # shuffling the pot
         random.shuffle(pot)
 
@@ -46,9 +49,12 @@ def group_draw(group_number, group_size):
 
     # TODO: draw one team at a time to add suspense to the draw
 
+
 def group_simulation(teams, legs):
 
-    # TODO: create group dataframe
+    # creating group table as pandas data frame and displaying empty group table
+    group_table = pd.DataFrame(0, index=teams, columns=['P', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts'])
+    print(group_table)
 
     # # for odd numbered groups we append a dummy team for correct fixture order
     if len(teams) % 2 != 0:
@@ -75,14 +81,14 @@ def group_simulation(teams, legs):
                     pass
                 else:
                     print(participants)
-                # TODO: add run match function(teams, ...)
+                # TODO: add run match function(teams, group, ...)
 
             # then the remaining teams play from out to in
             else:
 
                 home, away = teams[i + 1], teams[n - i]
                 participants = [home, away]
-                # printin as proof of function
+                # printing as proof of function
                 if 'dummy' in participants:
                     pass
                 else:

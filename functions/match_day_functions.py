@@ -4,6 +4,11 @@ import pandas as pd
 nation_df = pd.read_csv("../data/nation_data.csv")
 player_df = pd.read_csv("../data/player_data.csv")
 
+def matchday(group_table, ...):
+
+    return group_table
+
+
 home = 'Japan'
 # test function to retrieve teams lineup as a list
 print(f"\n{home} Line Up: {', '.join(player_df.loc[player_df['Country'] == home]['Name'].tolist())}")
