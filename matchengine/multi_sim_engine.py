@@ -1,25 +1,127 @@
-from scipy.stats import binom
+from scipy.stats import bernoulli
+from functions.match_day_functions import match_data_collection
+
+import random
+
 
 # multi_sim_match runs the whole match as part of multiple World Cup simulations
-def multi_sim_match(home, away):
-
+def multi_sim_match(nation_df, player_df, home, away, WC):
     # run match_data_retrieval here
-        # import not required
-        # return p_home, p_away, player_lists and their ratings
+    # import not required
+    # return p_home, p_away, player_lists and their ratings
+    p_home, home_players, home_atk, home_pass, p_away, away_players, away_atk, away_pass = match_data_collection(
+        nation_df, player_df, home,
+        away)
 
     # Running binomial simulation with size 90
-    score_home, score_away = binom.rvs(90, p_home), binom.rvs(90, p_away)
+    score_home, score_away = sum(bernoulli.rvs(p_home, size = 90)), sum(bernoulli.rvs(p_away, size = 90))
+
+    # Calculate scorers and assisters
+    multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC)
+    multi_sim_player_events(player_df, score_home, home_players, home_atk, home_pass, score_away,
+                            away_players, away_atk, away_pass, WC)
 
     # Printing the match result (Replace this with post_match later)
-    print(f"\nFinal Score: {score_home} - {score_away}")
+    print(f"\nFinal Score: {home} {score_home} - {score_away} {away}")
+
+    return(nation_df, player_df)
 
 
-# calculates detail of main events i.e., goals for a multi_sim_match
-def multi_sim_events():
+def multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC):
+    # Updating the nation data after the game
 
-    # Calculate goalscorers
-    # Calculate assisters
+    nation_df.loc[nation_df['Country'] == [home, away], 'P'] = nation_df.loc[
+                                                                   nation_df['Country'] == [home, away], 'P'] + 1
 
+    if WC == 'Yes':
+        nation_df.loc[nation_df['Country'] == [home, away], 'WC_P'] = nation_df.loc[
+                                                                          nation_df['Country'] == [home,
+                                                                                                   away], 'WC_P'] + 1
+
+    # home
+    nation_df.loc[nation_df['Country'] == home, 'GF'] = nation_df.loc[nation_df['Country'] == home, 'GF'] + score_home
+    nation_df.loc[nation_df['Country'] == home, 'GA'] = nation_df.loc[nation_df['Country'] == home, 'GA'] + score_away
+
+    if WC == 'Yes':
+        nation_df.loc[nation_df['Country'] == home, 'WC_GF'] = nation_df.loc[
+                                                                   nation_df['Country'] == home, 'WC_GF'] + score_home
+        nation_df.loc[nation_df['Country'] == home, 'WC_GA'] = nation_df.loc[
+                                                                   nation_df['Country'] == home, 'WC_GA'] + score_away
+
+    if away == 0:
+        nation_df.loc[nation_df['Country'] == home, 'Clean_Sheets'] = nation_df.loc[nation_df[
+                                                                                        'Country'] == home, 'Clean_Sheets'] + 1
+
+    # away
+    nation_df.loc[nation_df['Country'] == away, 'GF'] = nation_df.loc[nation_df['Country'] == away, 'GF'] + score_away
+    nation_df.loc[nation_df['Country'] == away, 'GA'] = nation_df.loc[nation_df['Country'] == away, 'GA'] + score_home
+
+    if WC == 'Yes':
+        nation_df.loc[nation_df['Country'] == away, 'WC_GF'] = nation_df.loc[
+                                                                   nation_df['Country'] == away, 'WC_GF'] + score_away
+        nation_df.loc[nation_df['Country'] == away, 'WC_GA'] = nation_df.loc[
+                                                                   nation_df['Country'] == away, 'WC_GA'] + score_home
+
+    if home == 0:
+        nation_df.loc[nation_df['Country'] == away, 'Clean_Sheets'] = nation_df.loc[nation_df[
+                                                                                        'Country'] == away, 'Clean_Sheets'] + 1
+
+
+# Calculates detail of main player events i.e., goals for a multi_sim_match
+def multi_sim_player_events(player_df, home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
+                            WC):
+    print(home_players, away_players)
+
+    # Updating the player data after the game
+    for i in range(home):
+        scorer = random.choices(home_players, weights=home_atk, k=1)[0]
+        index = home_players.index(scorer)
+        player_df.loc[player_df['Name'] == scorer, 'Goals'] = player_df.loc[player_df['Name'] == scorer, 'Goals'] + 1
+        if WC == 'Yes':
+            player_df.loc[player_df['Name'] == scorer, 'WC_Goals'] = player_df.loc[
+                                                                         player_df['Name'] == scorer, 'WC_Goals'] + 1
+        # print(scorer)
+        # TODO: Works up until here, needs to fix .loc error
+
+        x = random.uniform(0, 10)
+        if x < 8:
+            possible_assisters = home_players.pop(index)
+            possible_weights = home_pass.pop(index)
+            print(possible_assisters)
+            print(possible_weights)
+            assister = (random.choices(possible_assisters, weights=possible_weights, k=1))[0]
+            print(assister)
+            player_df.loc[player_df['Name'] == assister, 'Assists'] = player_df.loc[
+                                                                          player_df['Name'] == assister, 'Assists'] + 1
+            if WC == 'Yes':
+                player_df.loc[player_df['Name'] == assister, 'WC_Assists'] = player_df.loc[player_df[
+                                                                                               'Name'] == assister, 'WC_Assists'] + 1
+
+    for j in range(away):
+        scorer = (random.choices(away_players, weights=away_atk, k=1))[0]
+        player_df.loc[player_df['Name'] == scorer, 'Goals'] = player_df.loc[player_df['Name'] == scorer, 'Goals'] + 1
+        if WC == 'Yes':
+            player_df.loc[player_df['Name'] == scorer, 'WC_Goals'] = player_df.loc[
+                                                                         player_df['Name'] == scorer, 'WC_Goals'] + 1
+
+        x = random.uniform(0, 10)
+        if x < 8:
+            assister = (random.choices(away_players, weights=away_pass, k=1))[0]
+            player_df.loc[player_df['Name'] == assister, 'Assists'] = player_df.loc[
+                                                                          player_df['Name'] == assister, 'Assists'] + 1
+            if WC == 'Yes':
+                player_df.loc[player_df['Name'] == assister, 'WC_Assists'] = player_df.loc[player_df[
+                                                                                               'Name'] == assister, 'WC_Assists'] + 1
+
+    player_df.loc[player_df['Country'] == home, 'P'] = player_df.loc[player_df['Country'] == home, 'P'] + 1
+    if WC == 'Yes':
+        player_df.loc[player_df['Country'] == home, 'WC_P'] = player_df.loc[
+                                                                  player_df['Country'] == home, 'WC_P'] + 1
+
+    player_df.loc[player_df['Country'] == away, 'P'] = player_df.loc[player_df['Country'] == away, 'P'] + 1
+    if WC == 'Yes':
+        player_df.loc[player_df['Country'] == away, 'WC_P'] = player_df.loc[
+                                                                  player_df['Country'] == away, 'WC_P'] + 1
 # Variable Glossary
 # home/away - the two teams playing the match
 # p_home/p_away - probability of home/away team scoring each minute
