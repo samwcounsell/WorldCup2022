@@ -29,7 +29,7 @@ p_df['Country'] = ['Brazil', 'Brazil', 'Brazil', 'Japan', 'Japan', 'Japan']
 
 
 
-for i in range(3):
+for i in range(10):
     n_df, p_df = multi_sim_match(n_df, p_df, 'Brazil', 'Japan', 'Yes')
     print(n_df)
     print()
@@ -39,10 +39,3 @@ from scipy.stats import binom
 
 
 #print(n_df.loc[n_df['Country'] == home, 'GF'])
-
-players = ['Callum', 'Sam', 'Barrie']
-print(players)
-scorer = random.choices(players, weights = [10, 0, 0])[0]
-print(scorer)
-players.remove(scorer)
-print(players)

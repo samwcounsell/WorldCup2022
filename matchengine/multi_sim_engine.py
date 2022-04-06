@@ -70,7 +70,8 @@ def multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC):
 # Calculates detail of main player events i.e., goals for a multi_sim_match
 def multi_sim_player_events(player_df, home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
                             WC):
-    print(home_players, away_players)
+    #print(home_players, away_players)
+    #print(home_pass, away_pass)
 
     # Updating the player data after the game
     for i in range(home):
@@ -80,17 +81,16 @@ def multi_sim_player_events(player_df, home, home_players, home_atk, home_pass, 
         if WC == 'Yes':
             player_df.loc[player_df['Name'] == scorer, 'WC_Goals'] = player_df.loc[
                                                                          player_df['Name'] == scorer, 'WC_Goals'] + 1
-        # print(scorer)
+
         # TODO: Works up until here, needs to fix .loc error
 
         x = random.uniform(0, 10)
         if x < 8:
-            possible_assisters = home_players.pop(index)
-            possible_weights = home_pass.pop(index)
-            print(possible_assisters)
-            print(possible_weights)
+            possible_assisters = home_players[:]
+            possible_assisters.pop(index)
+            possible_weights = home_pass[:]
+            possible_weights.pop(index)
             assister = (random.choices(possible_assisters, weights=possible_weights, k=1))[0]
-            print(assister)
             player_df.loc[player_df['Name'] == assister, 'Assists'] = player_df.loc[
                                                                           player_df['Name'] == assister, 'Assists'] + 1
             if WC == 'Yes':
