@@ -1,7 +1,7 @@
-import pandas
 import pandas as pd
 import random
 
+from matchengine.multi_sim_engine import multi_sim_match
 
 def group_draw(group_number, group_size, teams):
     # group number is an integer (number of groups)
@@ -43,22 +43,20 @@ def group_draw(group_number, group_size, teams):
 
 # def wc_group_draw():
 
-    # TODO: draw teams with correct rules for confederation numbers
-    
+# TODO: draw teams with correct rules for confederation numbers
+
 # def wc_group_draw_slow():
 
-    # TODO: draw one team at a time to add suspense to the draw
+# TODO: draw one team at a time to add suspense to the draw
 
 
-def group_simulation(teams, legs):
-
+def group_simulation(data, teams, legs, sim, WC):
     # creating group table as pandas data frame and displaying empty group table
     group_table = pd.DataFrame(0, index=teams, columns=['P', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts'])
     print(group_table)
 
     # # for odd numbered groups we append a dummy team for correct fixture order
     if len(teams) % 2 != 0:
-
         teams.append("dummy")
 
     n = len(teams)
@@ -80,8 +78,11 @@ def group_simulation(teams, legs):
                 if 'dummy' in participants:
                     pass
                 else:
-                    print(participants)
-                # TODO: add run match function(teams, group, ...)
+                    if sim > 0:
+                        data, score = multi_sim_match(data, participants, WC)
+                    # if sim == 0:
+                        # single_sim_match
+                    group_table = match_update(group_table, participants, score)
 
             # then the remaining teams play from out to in
             else:
@@ -92,14 +93,53 @@ def group_simulation(teams, legs):
                 if 'dummy' in participants:
                     pass
                 else:
-                    print(participants)
-                # TODO: add run match function(teams, ...)
+                    if sim > 0:
+                        data, score = multi_sim_match(data, participants, WC)
+                    # if sim == 0:
+                        # single_sim_match
+                    group_table = match_update(group_table, participants, score)
 
         # second element of list moved to back, functions like 2 column system for drawing fixtures where all teams
         # except a fixed team cycle clockwise
         teams.insert(1, teams.pop())
+        group_table = round_update(group_table)
 
     # return final group table
+    print("\n", group_table)
+
+
+def match_update(group_table, participants, score):
+
+    # Result dependent updates
+    if score[0] > score[1]:
+        group_table.loc[participants[0], 'Pts'] = group_table.loc[participants[0], 'Pts'] + 3
+        group_table.loc[participants[0], 'W'] = group_table.loc[participants[0], 'W'] + 1
+        group_table.loc[participants[1], 'L'] = group_table.loc[participants[1], 'L'] + 1
+
+    if score[0] < score[1]:
+        group_table.loc[participants[1], 'Pts'] = group_table.loc[participants[1], 'Pts'] + 3
+        group_table.loc[participants[1], 'W'] = group_table.loc[participants[1], 'W'] + 1
+        group_table.loc[participants[0], 'L'] = group_table.loc[participants[0], 'L'] + 1
+
+    if score[0] == score[1]:
+        group_table.loc[participants, 'Pts'] = group_table.loc[participants, 'Pts'] + 1
+        group_table.loc[participants, 'D'] = group_table.loc[participants, 'D'] + 1
+
+    # Required updates (Home)
+    group_table.loc[participants, 'P'] = group_table.loc[participants, 'P'] + 1
+    group_table.loc[participants[0], 'GF'] = group_table.loc[participants[0], 'GF'] + score[0]
+    group_table.loc[participants[0], 'GA'] = group_table.loc[participants[0], 'GA'] + score[1]
+    group_table.loc[participants[1], 'GF'] = group_table.loc[participants[1], 'GF'] + score[1]
+    group_table.loc[participants[1], 'GA'] = group_table.loc[participants[1], 'GA'] + score[0]
+
+    return group_table
+
+def round_update(group_table):
+
+    group_table['GD'] = group_table['GF'] - group_table['GA']
+    group_table = group_table.sort_values(['Pts', 'GD', 'GF', 'GA'], ascending=[False, False, False, True])
+
+    return group_table
 
 # Variable Glossary
 # group_names - list of group names, also used as variable generate groups variable from
