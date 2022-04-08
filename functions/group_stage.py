@@ -3,6 +3,7 @@ import random
 
 from matchengine.multi_sim_engine import multi_sim_match
 
+
 def group_draw(group_number, group_size, teams):
     # group number is an integer (number of groups)
     # group size is an integer (number of teams per group)
@@ -81,7 +82,7 @@ def group_simulation(data, teams, legs, sim, WC):
                     if sim > 0:
                         data, score = multi_sim_match(data, participants, WC)
                     # if sim == 0:
-                        # single_sim_match
+                    # single_sim_match
                     group_table = match_update(group_table, participants, score)
 
             # then the remaining teams play from out to in
@@ -96,7 +97,7 @@ def group_simulation(data, teams, legs, sim, WC):
                     if sim > 0:
                         data, score = multi_sim_match(data, participants, WC)
                     # if sim == 0:
-                        # single_sim_match
+                    # single_sim_match
                     group_table = match_update(group_table, participants, score)
 
         # second element of list moved to back, functions like 2 column system for drawing fixtures where all teams
@@ -106,10 +107,10 @@ def group_simulation(data, teams, legs, sim, WC):
 
     # return final group table
     print("\n", group_table)
+    return group_table
 
 
 def match_update(group_table, participants, score):
-
     # Result dependent updates
     if score[0] > score[1]:
         group_table.loc[participants[0], 'Pts'] = group_table.loc[participants[0], 'Pts'] + 3
@@ -134,12 +135,16 @@ def match_update(group_table, participants, score):
 
     return group_table
 
-def round_update(group_table):
 
+def round_update(group_table):
     group_table['GD'] = group_table['GF'] - group_table['GA']
     group_table = group_table.sort_values(['Pts', 'GD', 'GF', 'GA'], ascending=[False, False, False, True])
 
     return group_table
+
+
+
+
 
 # Variable Glossary
 # group_names - list of group names, also used as variable generate groups variable from

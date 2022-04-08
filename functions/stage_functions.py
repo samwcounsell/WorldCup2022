@@ -1,4 +1,4 @@
-from functions.substage_functions import group_draw, group_simulation
+from functions.group_stage import group_draw, group_simulation
 
 
 def group_stage(group_number, group_size, legs, number_of_teams_to_progress):

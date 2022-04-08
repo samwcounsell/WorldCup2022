@@ -1,4 +1,4 @@
-from functions.substage_functions import group_draw, group_simulation
+from functions.group_stage import group_draw, group_simulation
 
 import pandas as pd
 
