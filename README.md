@@ -11,3 +11,6 @@ A redesign of our previous Python World Cup, aiming to simulate the 2022 World C
 2. Streamlining
    - 2.1. Compartmentalising the code into a modular format allows for easy addition of features and bug fixing in future.
    - 2.2. Flow chart has been created to aid visualisation of the project, both for developers and users.
+
+   # Notes for DEVS
+Stage types: 0 = Group, 1 = Knockout (90), 2 = Knockout (ET)

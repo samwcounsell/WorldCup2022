@@ -1,4 +1,6 @@
 from functions.group_stage import group_draw, group_simulation
+from functions.progression import progression
+from functions.knockout import knockout
 
 import pandas as pd
 
@@ -11,8 +13,15 @@ list = nation_df.loc[nation_df['Confederation'] == 'UEFA']['Country'].to_list()
 sim = 1
 WC = 1
 
+teams = list[:8]
+
 data = [nation_df, player_df]
 
-group_draw(11, 4, list)
+for i in range(10):
+    a = knockout(data, teams, 2, 1, 0)
+    print("\n", a)
 
-group_simulation(data, list[:4], 2, sim, WC)
+from functions.knockout import penalties
+
+for i in range(100):
+    penalties()

@@ -3,6 +3,19 @@ import random
 
 from matchengine.multi_sim_engine import multi_sim_match
 
+def group_stage(data, teams, legs, sim, WC, group_number, group_size):
+
+    groups = group_draw(group_number, group_size, teams)
+
+    names = ['Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 'Group G', 'Group H', 'Group I', 'Group J']
+
+    for i in range(len(groups)):
+        print(f"\n{names[i]}")
+        groups[i] = group_simulation(data, groups[i], legs, sim, WC)
+
+    return groups
+
+
 
 def group_draw(group_number, group_size, teams):
     # group number is an integer (number of groups)
@@ -54,7 +67,7 @@ def group_draw(group_number, group_size, teams):
 def group_simulation(data, teams, legs, sim, WC):
     # creating group table as pandas data frame and displaying empty group table
     group_table = pd.DataFrame(0, index=teams, columns=['P', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts'])
-    print(group_table)
+    print("\n", group_table)
 
     # # for odd numbered groups we append a dummy team for correct fixture order
     if len(teams) % 2 != 0:
@@ -80,7 +93,8 @@ def group_simulation(data, teams, legs, sim, WC):
                     pass
                 else:
                     if sim > 0:
-                        data, score = multi_sim_match(data, participants, WC)
+                        data, score = multi_sim_match(data, participants, WC, 0)
+                        print(f"\nFinal Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
                     # if sim == 0:
                     # single_sim_match
                     group_table = match_update(group_table, participants, score)
@@ -95,7 +109,8 @@ def group_simulation(data, teams, legs, sim, WC):
                     pass
                 else:
                     if sim > 0:
-                        data, score = multi_sim_match(data, participants, WC)
+                        data, score = multi_sim_match(data, participants, WC, 0)
+                        print(f"\nFinal Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
                     # if sim == 0:
                     # single_sim_match
                     group_table = match_update(group_table, participants, score)

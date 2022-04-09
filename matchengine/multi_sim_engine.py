@@ -5,7 +5,7 @@ import random
 
 
 # multi_sim_match runs the whole match as part of multiple World Cup simulations
-def multi_sim_match(data, participants, WC):
+def multi_sim_match(data, participants, WC, stage):
     # run match_data_retrieval here
     # import not required
     # return p_home, p_away, player_lists and their ratings
@@ -18,20 +18,27 @@ def multi_sim_match(data, participants, WC):
         away)
 
     # Running binomial simulation with size 90
-    score_home, score_away = sum(bernoulli.rvs(p_home, size = 90)), sum(bernoulli.rvs(p_away, size = 90))
+    if stage < 2:
+
+        score_home, score_away = sum(bernoulli.rvs(p_home, size = 90)), sum(bernoulli.rvs(p_away, size = 90))
+
+    # For knockout matches ET
+    if stage == 2:
+
+        # Run extra-time
+        score_home, score_away = sum(bernoulli.rvs(p_home, size = 30)), sum(bernoulli.rvs(p_home, size = 30))
+
+
 
     # Calculate scorers and assisters
     multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC)
-    multi_sim_player_events(player_df, score_home, home_players, home_atk, home_pass, score_away,
+    multi_sim_player_events(player_df, home, score_home, home_players, home_atk, home_pass, away, score_away,
                             away_players, away_atk, away_pass, WC)
-
-    # Printing the match result (Replace this with post_match later)
-    print(f"\nFinal Score: {home} {score_home} - {score_away} {away}")
 
     data = [nation_df, player_df]
     score = [score_home, score_away]
 
-    return(data, score)
+    return data, score
 
 
 def multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC):
@@ -75,13 +82,11 @@ def multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC):
 
 
 # Calculates detail of main player events i.e., goals for a multi_sim_match
-def multi_sim_player_events(player_df, home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
+def multi_sim_player_events(player_df, home, score_home, home_players, home_atk, home_pass, away, score_away, away_players, away_atk, away_pass,
                             WC):
-    #print(home_players, away_players)
-    #print(home_pass, away_pass)
 
     # Updating the player data after the game
-    for i in range(home):
+    for i in range(score_home):
         scorer = random.choices(home_players, weights=home_atk, k=1)[0]
         index = home_players.index(scorer)
         player_df.loc[player_df['Name'] == scorer, 'Goals'] = player_df.loc[player_df['Name'] == scorer, 'Goals'] + 1
@@ -104,7 +109,7 @@ def multi_sim_player_events(player_df, home, home_players, home_atk, home_pass, 
                 player_df.loc[player_df['Name'] == assister, 'WC_Assists'] = player_df.loc[player_df[
                                                                                                'Name'] == assister, 'WC_Assists'] + 1
 
-    for j in range(away):
+    for j in range(score_away):
         scorer = (random.choices(away_players, weights=away_atk, k=1))[0]
         player_df.loc[player_df['Name'] == scorer, 'Goals'] = player_df.loc[player_df['Name'] == scorer, 'Goals'] + 1
         if WC > 0:
