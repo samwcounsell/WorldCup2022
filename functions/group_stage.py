@@ -46,7 +46,14 @@ def group_draw(group_number, group_size, teams):
 
             # otherwise, it appends new team to the list
             else:
-                groups[j].append(pot[j])
+                try:
+                    groups[j].append(pot[j])
+                # If no more teams to add (UEFA) ignore the issue
+                except:
+                    groups[j].append("dummy")
+                    groups[j].remove("dummy")
+
+
 
     # printing the groups
     for i in range(group_number):
