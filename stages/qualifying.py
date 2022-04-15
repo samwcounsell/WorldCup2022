@@ -1,6 +1,12 @@
-from confederations.afc import afc
-from confederations.caf import caf
-from confederations.concacaf import concacaf
-from confederations.conmebol import conmebol
-from confederations.ofc import ofc
-from confederations.uefa import uefa
+from functions.qualifying_functions import qualifiers, icp
+
+def complete_qualifiers(data):
+
+    qualified, qualified_icp = qualifiers(data)
+    icp_winners = icp(data, qualified_icp)
+
+    wc_teams = ["Qatar"] + qualified + icp_winners
+    print(f"\nQualified for the World Cup: {', '.join(wc_teams)}")
+
+    return data, wc_teams
+

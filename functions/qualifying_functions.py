@@ -9,22 +9,6 @@ from functions.knockout import knockout
 
 import pandas as pd
 
-nation_data, player_data = pd.read_csv('../data/nation_data.csv'), pd.read_csv('../data/player_data.csv')
-data = [nation_data, player_data]
-
-
-def complete_qualifiers(data):
-
-    qualified, qualified_icp = qualifiers(data)
-    icp_winners = icp(data, qualified_icp)
-
-    wc_teams = ["Qatar"] + qualified + icp_winners
-    print(f"\nQualified for the World Cup: {', '.join(wc_teams)}")
-    print(len(wc_teams))
-
-    return wc_teams
-
-
 # TODO: Inside each confederation make sure sort by World Rank before initial stages
 
 def qualifiers(data):
@@ -51,5 +35,4 @@ def icp(data, icp):
     return icp_winners
 
 
-complete_qualifiers(data)
 

@@ -17,10 +17,11 @@ def knockout(data, teams, legs, sim, WC):
             # Running the match
             if sim > 0:
                 data, leg_score = multi_sim_match(data, participants, WC, 1)
-                print(f"\nFinal Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
+                print(f"\nFinal Score: {participants[0]} {leg_score[0]} - {leg_score[1]} {participants[1]}")
                 score = [a + b for a, b in zip(score, leg_score)]
 
             # TODO: Add single sim
+
         if legs > 1:
             print(f"\nAggregate Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
 

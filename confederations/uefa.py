@@ -26,7 +26,7 @@ def uefa(data):
     # Round 2
     print("\nWelcome to UEFA Qualifying Round 2")
     # data, teams, legs, sim, WC, group number, group size
-    groups = group_stage(data, teams, 2, 1, 0, 2, 5)
+    groups = group_stage(data, qualified_b, 2, 1, 0, 2, 5)
     qualified_c, qualified_d = progression(groups, 2, 2)
 
     print(f"\nQualified for the World Cup: {', '.join(qualified_c)}")

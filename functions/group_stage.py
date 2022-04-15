@@ -2,10 +2,15 @@ import pandas as pd
 import random
 
 from matchengine.multi_sim_engine import multi_sim_match
+from functions.worldcup_functions import worldcup_draw
 
 def group_stage(data, teams, legs, sim, WC, group_number, group_size):
 
-    groups = group_draw(group_number, group_size, teams)
+    if WC == 0:
+        groups = group_draw(group_number, group_size, teams)
+
+    else:
+        groups = worldcup_draw(data, teams)
 
     names = ['Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 'Group G', 'Group H', 'Group I', 'Group J']
 
