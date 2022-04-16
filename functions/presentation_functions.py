@@ -1,3 +1,6 @@
+def welcome():
+
+    print("\nWelcome to the Python World Cup 2022 by samwcounsella and githubkeano!")
 
 def confederation_introduction(confederation, data):
 

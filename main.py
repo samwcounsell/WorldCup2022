@@ -1,17 +1,12 @@
-from stages.qualifying import complete_qualifiers
-from stages.finals import worldcup_finals
+from stages.combined import worldcup_simulation
+from functions.main_functions import choose_type, choose_num
+from functions.presentation_functions import welcome
 
-import pandas as pd
+welcome()
 
-nation_data, player_data = pd.read_csv('data/nation_data.csv'), pd.read_csv('data/player_data.csv')
-data = [nation_data, player_data]
+sim_type, delay = choose_type()
 
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)
+sim_info = [sim_type, float(delay)]
+sim_num = choose_num()
 
-data, wc_teams = complete_qualifiers(data)
-
-data = worldcup_finals(data, wc_teams)
-
-
-
+complete_data = worldcup_simulation(sim_info, sim_num)

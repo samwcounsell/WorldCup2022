@@ -1,23 +1,10 @@
-import pandas as pd
+import random
 
-# reading in the data sets
-#nation_df = pd.read_csv("../data/2022_nation_data.csv")
-#player_df = pd.read_csv("../data/2022_player_data.csv")
-
-# def matchday(group_table, ...):
-
-    #return group_table
-
-
-#home = 'Japan'
-## test function to retrieve teams lineup as a list
-#print(f"\n{home} Line Up: {', '.join(player_df.loc[player_df['Country'] == home]['Name'].tolist())}")
-
-# test function for more detailed lineup
-#print(f"\n{home} Line Up:\n\n GK:{', '.join(player_df.loc[((player_df['Country'] == home) & (player_df['Position'] == 'GK'))]['Name'].tolist())}\n Defence: {', '.join(player_df.loc[((player_df['Country'] == home) & (player_df['Position'] == 'DEF'))]['Name'].tolist())}\n Midfield: {', '.join(player_df.loc[((player_df['Country'] == home) & (player_df['Position'] == 'MID'))]['Name'].tolist())}\n Attack: {', '.join(player_df.loc[((player_df['Country'] == home) & (player_df['Position'] == 'ATK'))]['Name'].tolist())}")
-
-def match_data_collection(nation_df, player_df, home, away):
+def match_data_collection(data, participants):
     # Retrieve all relevant data from nation_df, player df
+
+    nation_df, player_df = data[0], data[1]
+    home, away = participants[0], participants[1]
 
     # home
     p_home = (float(nation_df.loc[nation_df['Country'] == home]['Attack']) / float(nation_df.loc[nation_df['Country'] == away]['Defense']))/90
@@ -32,5 +19,49 @@ def match_data_collection(nation_df, player_df, home, away):
     away_pass = player_df.loc[player_df['Country'] == away]['Passing'].tolist()
 
     return p_home, home_players, home_atk, home_pass, p_away, away_players, away_atk, away_pass
+
+
+def detailed_sim_goal(minute, min_score, score, player_df, home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
+                            WC):
+
+    # Home goal
+    if min_score[0] == 1:
+        scorer = (random.choices(away_players, weights=away_atk, k=1))[0]
+        player_df.loc[player_df['Name'] == scorer, 'Goals'] = player_df.loc[player_df['Name'] == scorer, 'Goals'] + 1
+        if WC > 0:
+            player_df.loc[player_df['Name'] == scorer, 'WC_Goals'] = player_df.loc[
+                                                                     player_df['Name'] == scorer, 'WC_Goals'] + 1
+
+        x = random.uniform(0, 10)
+        if x < 8:
+            assister = (random.choices(home_players, weights=home_pass, k=1))[0]
+            player_df.loc[player_df['Name'] == assister, 'Assists'] = player_df.loc[
+                                                                      player_df['Name'] == assister, 'Assists'] + 1
+            if WC > 0:
+                player_df.loc[player_df['Name'] == assister, 'WC_Assists'] = player_df.loc[player_df[
+                                                                                           'Name'] == assister, 'WC_Assists'] + 1
+
+    # Away goal
+    if min_score[1] == 1:
+        scorer = (random.choices(away_players, weights=away_atk, k=1))[0]
+        player_df.loc[player_df['Name'] == scorer, 'Goals'] = player_df.loc[player_df['Name'] == scorer, 'Goals'] + 1
+        if WC > 0:
+            player_df.loc[player_df['Name'] == scorer, 'WC_Goals'] = player_df.loc[
+                                                                     player_df['Name'] == scorer, 'WC_Goals'] + 1
+
+        x = random.uniform(0, 10)
+        if x < 8:
+            assister = (random.choices(away_players, weights=away_pass, k=1))[0]
+            player_df.loc[player_df['Name'] == assister, 'Assists'] = player_df.loc[
+                                                                      player_df['Name'] == assister, 'Assists'] + 1
+            if WC > 0:
+                player_df.loc[player_df['Name'] == assister, 'WC_Assists'] = player_df.loc[player_df[
+                                                                                           'Name'] == assister, 'WC_Assists'] + 1
+
+    # TODO: Add proper commentary for goal...
+    print(f"Goal {minute}, {scorer}, {score[0]} - {score[1]}")
+
+    return player_df
+
 
 

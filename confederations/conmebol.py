@@ -3,7 +3,7 @@ from functions.group_stage import group_stage
 from functions.progression import progression
 
 
-def conmebol(data):
+def conmebol(data, sim_info):
 
     # TODO: Add if loop for running more than one simulation
 
@@ -16,7 +16,7 @@ def conmebol(data):
     # Round 1
     print("\nWelcome to CONMEBOL Qualifying")
     # data, teams, legs, sim, WC, group number, group size
-    groups = group_stage(data, teams, 2, 1, 0, 1, len(teams))
+    groups = group_stage(data, teams, 2, sim_info, 0, 1, len(teams))
     qualified_wc, qualified_icp = progression(groups, 4, 1)
 
     print(f"\nQualified for the World Cup: {', '.join(qualified_wc)}")

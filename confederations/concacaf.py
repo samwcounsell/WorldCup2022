@@ -4,7 +4,7 @@ from functions.progression import progression
 from functions.knockout import knockout
 
 
-def concacaf(data):
+def concacaf(data, sim_info):
 
     # TODO: Add if loop for running more than one simulation
 
@@ -16,13 +16,13 @@ def concacaf(data):
 
     # Round 1
     print("\nWelcome to CONCACAF Qualifying Round 1")
-    groups = group_stage(data, teams[5:], 2, 1, 0, 6, 5)
+    groups = group_stage(data, teams[5:], 2, sim_info, 0, 6, 5)
     qualified_a, null = progression(groups, 6, 0)
     print(f"\nQualified: {', '.join(qualified_a)}")
 
     # Round 2
     print("\nWelcome to CONCACAF Qualifying Round 2")
-    qualified_b = knockout(data, qualified_a, 2, 1, 0)
+    qualified_b = knockout(data, qualified_a, 2, sim_info, 0)
     print(f"\nQualified: {', '.join(qualified_b)}")
 
     teams = teams[:5]
@@ -30,7 +30,7 @@ def concacaf(data):
 
     # Round 3
     print("\nWelcome to AFC Qualifying Round 3")
-    groups = group_stage(data, teams, 2, 1, 0, 1, len(teams))
+    groups = group_stage(data, teams, 2, sim_info, 0, 1, len(teams))
     qualified_wc, qualified_icp = progression(groups, 3, 1)
 
     print(f"\nQualified for the World Cup: {', '.join(qualified_wc)}")

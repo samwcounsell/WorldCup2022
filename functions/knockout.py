@@ -1,9 +1,10 @@
-from matchengine.multi_sim_engine import multi_sim_match
+from matchengine.simple_engine import multi_sim_match
+from matchengine.detailed_engine import detailed_sim_match
 
 from scipy.stats import bernoulli
 
 
-def knockout(data, teams, legs, sim, WC):
+def knockout(data, teams, legs, sim_info, WC):
 
     qualified = []
 
@@ -12,15 +13,21 @@ def knockout(data, teams, legs, sim, WC):
         score = [0, 0]
 
         for j in range(legs):
-            participants = teams[2 * i: 2 * i + 2]
+
+            # Makes sure teams alternate home and away leg
+            if (j % 2) == 0:
+                participants = teams[2 * i: 2 * i + 2]
+            else:
+                participants = [teams[2 * i + 1], teams[2 * i]]
 
             # Running the match
-            if sim > 0:
-                data, leg_score = multi_sim_match(data, participants, WC, 1)
-                print(f"\nFinal Score: {participants[0]} {leg_score[0]} - {leg_score[1]} {participants[1]}")
-                score = [a + b for a, b in zip(score, leg_score)]
+            if sim_info[0] > 0:
+                data, leg_score = multi_sim_match(data, participants, WC, sim_info)
+            else:
+                data, leg_score = detailed_sim_match(data, participants, WC, sim_info)
 
-            # TODO: Add single sim
+            print(f"\nFinal Score: {participants[0]} {leg_score[0]} - {leg_score[1]} {participants[1]}")
+            score = [a + b for a, b in zip(score, leg_score)]
 
         if legs > 1:
             print(f"\nAggregate Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
@@ -32,21 +39,23 @@ def knockout(data, teams, legs, sim, WC):
             qualified.append(participants[1])
 
         else:
-            if sim > 0:
-                data, leg_score = multi_sim_match(data, participants, WC, 2)
-                print(f"\nET Final Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
-                score = [a + b for a, b in zip(score, leg_score)]
+            if sim_info[0] > 0:
+                data, leg_score = multi_sim_match(data, participants, WC, [sim_info[0] + 2, sim_info[1]])
+            else:
+                data, leg_score = detailed_sim_match(data, participants, WC, [sim_info[0] + 2, sim_info[1]])
 
-                if score[0] > score[1]:
+            print(f"\nET Final Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
+            score = [a + b for a, b in zip(score, leg_score)]
+
+            if score[0] > score[1]:
                     qualified.append(participants[0])
 
-                elif score[1] > score[0]:
-                    qualified.append(participants[1])
-            # TODO: Add single sim
+            elif score[1] > score[0]:
+                qualified.append(participants[1])
 
-                else:
-                    pen_winner = penalties()
-                    qualified.append(participants[pen_winner])
+            else:
+                pen_winner = penalties()
+                qualified.append(participants[pen_winner])
 
     return qualified
 

@@ -1,22 +1,23 @@
 import pandas as pd
 import random
 
-from matchengine.multi_sim_engine import multi_sim_match
+from matchengine.simple_engine import multi_sim_match
+from matchengine.detailed_engine import detailed_sim_match
 from functions.worldcup_functions import worldcup_draw
 
-def group_stage(data, teams, legs, sim, WC, group_number, group_size):
+def group_stage(data, teams, legs, sim_info, WC, group_number, group_size):
 
     if WC == 0:
         groups = group_draw(group_number, group_size, teams)
 
     else:
-        groups = worldcup_draw(data, teams)
+        groups = worldcup_draw(data, teams, sim_info)
 
     names = ['Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 'Group G', 'Group H', 'Group I', 'Group J']
 
     for i in range(len(groups)):
         print(f"\n{names[i]}")
-        groups[i] = group_simulation(data, groups[i], legs, sim, WC)
+        groups[i] = group_simulation(data, groups[i], legs, sim_info, WC)
 
     return groups
 
@@ -76,7 +77,7 @@ def group_draw(group_number, group_size, teams):
 # TODO: draw one team at a time to add suspense to the draw
 
 
-def group_simulation(data, teams, legs, sim, WC):
+def group_simulation(data, teams, legs, sim_info, WC):
     # creating group table as pandas data frame and displaying empty group table
     group_table = pd.DataFrame(0, index=teams, columns=['P', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts'])
     print("\n", group_table)
@@ -99,30 +100,44 @@ def group_simulation(data, teams, legs, sim, WC):
             # fixture scheduling works by having element 0 v element 1 first
             if i == 0:
 
-                participants = teams[0:2]
+                # Makes sure teams alternate home and away leg
+                if (j % 2) == 0:
+                    participants = teams[0:2]
+                else:
+                    participants = [teams[1], teams[0]]
+
                 # printing as proof of function
                 if 'dummy' in participants:
                     pass
                 else:
-                    if sim > 0:
-                        data, score = multi_sim_match(data, participants, WC, 0)
-                        print(f"\nFinal Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
+                    if sim_info[0] > 0:
+                        data, score = multi_sim_match(data, participants, WC, sim_info)
+                    else:
+                        data, score = detailed_sim_match(data, participants, WC, sim_info)
+
+                    print(f"\nFinal Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
                     # if sim == 0:
                     # single_sim_match
                     group_table = match_update(group_table, participants, score)
 
             # then the remaining teams play from out to in
             else:
-
                 home, away = teams[i + 1], teams[n - i]
-                participants = [home, away]
+                if (j % 2) == 0:
+                    participants = [home, away]
+                else:
+                    participants = [away, home]
+
                 # printing as proof of function
                 if 'dummy' in participants:
                     pass
                 else:
-                    if sim > 0:
-                        data, score = multi_sim_match(data, participants, WC, 0)
-                        print(f"\nFinal Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
+                    if sim_info[0] > 0:
+                        data, score = multi_sim_match(data, participants, WC, sim_info)
+                    else:
+                        data, score = detailed_sim_match(data, participants, WC, sim_info)
+
+                    print(f"\nFinal Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
                     # if sim == 0:
                     # single_sim_match
                     group_table = match_update(group_table, participants, score)

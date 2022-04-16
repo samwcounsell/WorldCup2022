@@ -5,7 +5,7 @@ import random
 
 
 # multi_sim_match runs the whole match as part of multiple World Cup simulations
-def multi_sim_match(data, participants, WC, stage):
+def multi_sim_match(data, participants, WC, sim_info):
     # run match_data_retrieval here
     # import not required
     # return p_home, p_away, player_lists and their ratings
@@ -14,16 +14,15 @@ def multi_sim_match(data, participants, WC, stage):
     home, away = participants[0], participants[1]
 
     p_home, home_players, home_atk, home_pass, p_away, away_players, away_atk, away_pass = match_data_collection(
-        nation_df, player_df, home,
-        away)
+        data, participants)
 
     # Running binomial simulation with size 90
-    if stage < 2:
+    if sim_info[0] < 2:
 
         score_home, score_away = sum(bernoulli.rvs(p_home, size = 90)), sum(bernoulli.rvs(p_away, size = 90))
 
     # For knockout matches ET
-    if stage == 2:
+    if sim_info[0] > 1:
 
         # Run extra-time
         score_home, score_away = sum(bernoulli.rvs(p_home, size = 30)), sum(bernoulli.rvs(p_home, size = 30))
@@ -93,8 +92,6 @@ def multi_sim_player_events(player_df, home, score_home, home_players, home_atk,
         if WC > 0:
             player_df.loc[player_df['Name'] == scorer, 'WC_Goals'] = player_df.loc[
                                                                          player_df['Name'] == scorer, 'WC_Goals'] + 1
-
-        # TODO: Works up until here, needs to fix .loc error
 
         x = random.uniform(0, 10)
         if x < 8:

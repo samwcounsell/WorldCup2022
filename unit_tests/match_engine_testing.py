@@ -7,7 +7,7 @@ pd.set_option('display.max_columns', None)
 
 from scipy.stats import bernoulli
 
-from matchengine.multi_sim_engine import multi_sim_match
+from matchengine.simple_engine import multi_sim_match
 
 n_df = pd.DataFrame(0, index = [0, 1], columns=['Country', 'Attack', 'Defense', 'P', 'GF', 'GA', 'Clean_Sheets', 'WC_P', 'WC_GF', 'WC_GA'])
 n_df['Country'] = ['Brazil', 'Japan']
