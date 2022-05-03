@@ -24,3 +24,31 @@ print(groups[2])
 df = pd.DataFrame(columns=['P', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts'])
 df = pd.concat([df, c.head(1), a.head(1)])
 print(df)
+
+
+# DASH CODE
+fig3 = go.Figure(
+    data=[
+        go.Bar(
+            name="Original",
+            x=data["Country"],
+            y=data["WCGS"],
+            offsetgroup=0,
+        ),
+        go.Bar(
+            name="Model 1",
+            x=data["Country"],
+            y=data["WCR16"],
+            offsetgroup=0,
+        )
+    ],
+    layout=go.Layout(
+        title="Issue Types - Original and Models",
+        yaxis_title="Number of Issues",
+        font=dict(
+            family="Courier New, monospace",
+            size=8,
+            color="RebeccaPurple"
+        )
+    )
+)

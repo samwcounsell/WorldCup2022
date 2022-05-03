@@ -1,7 +1,7 @@
 import dash_bootstrap_components as dbc
 
-def create_navigation():
 
+def create_navigation():
     navigation = dbc.NavbarSimple(
         children=[
             dbc.DropdownMenu(

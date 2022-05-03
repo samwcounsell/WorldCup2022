@@ -16,7 +16,7 @@ def uefa(data, sim_info):
 
     # Round 1
     print("\nWelcome to UEFA Qualifying Round 1")
-    # data, teams, legs, sim, WC, group number, group size
+    # sim_data, teams, legs, sim, WC, group number, group size
     groups = group_stage(data, teams, 2, sim_info, 0, 10, 6)
     qualified_a, qualified_b = progression(groups, 10, 10)
 
@@ -25,7 +25,7 @@ def uefa(data, sim_info):
 
     # Round 2
     print("\nWelcome to UEFA Qualifying Round 2")
-    # data, teams, legs, sim, WC, group number, group size
+    # sim_data, teams, legs, sim, WC, group number, group size
     groups = group_stage(data, qualified_b, 2, sim_info, 0, 2, 5)
     qualified_c, qualified_d = progression(groups, 2, 2)
 

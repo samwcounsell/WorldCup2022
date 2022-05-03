@@ -23,7 +23,7 @@ def ofc(data, sim_info):
 
     # Round 2
     print("\nWelcome to OFC Qualifying Round 2")
-    # data, teams, legs, sim, WC, group number, group size
+    # sim_data, teams, legs, sim, WC, group number, group size
     groups = group_stage(data, teams, 2, sim_info, 0, 2, 5)
     qualified_a, qualified_b = progression(groups, 4, 0)
 

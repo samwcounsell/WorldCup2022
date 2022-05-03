@@ -56,7 +56,7 @@ def detailed_sim_match(data, participants, WC, sim_info):
 
 
 def detailed_sim_nation_events(nation_df, home, away, score_home, score_away, WC):
-    # Updating the nation data after the game
+    # Updating the nation sim_data after the game
 
     nation_df.loc[nation_df['Country'].isin([home, away]), 'P'] = nation_df.loc[
                                                                       nation_df['Country'].isin([home, away]), 'P'] + 1

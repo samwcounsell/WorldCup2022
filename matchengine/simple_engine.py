@@ -41,7 +41,7 @@ def multi_sim_match(data, participants, WC, sim_info):
 
 
 def multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC):
-    # Updating the nation data after the game
+    # Updating the nation sim_data after the game
 
     nation_df.loc[nation_df['Country'].isin([home, away]), 'P'] = nation_df.loc[
                                                                    nation_df['Country'].isin([home, away]), 'P'] + 1
@@ -84,7 +84,7 @@ def multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC):
 def multi_sim_player_events(player_df, home, score_home, home_players, home_atk, home_pass, away, score_away, away_players, away_atk, away_pass,
                             WC):
 
-    # Updating the player data after the game
+    # Updating the player sim_data after the game
     for i in range(score_home):
         scorer = random.choices(home_players, weights=home_atk, k=1)[0]
         index = home_players.index(scorer)

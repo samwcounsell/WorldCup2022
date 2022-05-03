@@ -78,7 +78,7 @@ def group_draw(group_number, group_size, teams):
 
 
 def group_simulation(data, teams, legs, sim_info, WC):
-    # creating group table as pandas data frame and displaying empty group table
+    # creating group table as pandas sim_data frame and displaying empty group table
     group_table = pd.DataFrame(0, index=teams, columns=['P', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts'])
     print("\n", group_table)
 

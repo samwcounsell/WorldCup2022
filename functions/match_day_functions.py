@@ -1,7 +1,7 @@
 import random
 
 def match_data_collection(data, participants):
-    # Retrieve all relevant data from nation_df, player df
+    # Retrieve all relevant sim_data from nation_df, player df
 
     nation_df, player_df = data[0], data[1]
     home, away = participants[0], participants[1]
@@ -26,7 +26,8 @@ def detailed_sim_goal(minute, min_score, score, player_df, home, home_players, h
 
     # Home goal
     if min_score[0] == 1:
-        scorer = (random.choices(away_players, weights=away_atk, k=1))[0]
+        scorer = (random.choices(home_players, weights=home_atk, k=1))[0]
+        index = home_players.index(scorer)
         player_df.loc[player_df['Name'] == scorer, 'Goals'] = player_df.loc[player_df['Name'] == scorer, 'Goals'] + 1
         if WC > 0:
             player_df.loc[player_df['Name'] == scorer, 'WC_Goals'] = player_df.loc[
@@ -34,6 +35,10 @@ def detailed_sim_goal(minute, min_score, score, player_df, home, home_players, h
 
         x = random.uniform(0, 10)
         if x < 8:
+            possible_assisters = home_players[:]
+            possible_assisters.pop(index)
+            possible_weights = home_pass[:]
+            possible_weights.pop(index)
             assister = (random.choices(home_players, weights=home_pass, k=1))[0]
             player_df.loc[player_df['Name'] == assister, 'Assists'] = player_df.loc[
                                                                       player_df['Name'] == assister, 'Assists'] + 1
@@ -44,6 +49,7 @@ def detailed_sim_goal(minute, min_score, score, player_df, home, home_players, h
     # Away goal
     if min_score[1] == 1:
         scorer = (random.choices(away_players, weights=away_atk, k=1))[0]
+        index = away_players.index(scorer)
         player_df.loc[player_df['Name'] == scorer, 'Goals'] = player_df.loc[player_df['Name'] == scorer, 'Goals'] + 1
         if WC > 0:
             player_df.loc[player_df['Name'] == scorer, 'WC_Goals'] = player_df.loc[
@@ -51,6 +57,10 @@ def detailed_sim_goal(minute, min_score, score, player_df, home, home_players, h
 
         x = random.uniform(0, 10)
         if x < 8:
+            possible_assisters = away_players[:]
+            possible_assisters.pop(index)
+            possible_weights = away_pass[:]
+            possible_weights.pop(index)
             assister = (random.choices(away_players, weights=away_pass, k=1))[0]
             player_df.loc[player_df['Name'] == assister, 'Assists'] = player_df.loc[
                                                                       player_df['Name'] == assister, 'Assists'] + 1

@@ -15,7 +15,7 @@ def conmebol(data, sim_info):
 
     # Round 1
     print("\nWelcome to CONMEBOL Qualifying")
-    # data, teams, legs, sim, WC, group number, group size
+    # sim_data, teams, legs, sim, WC, group number, group size
     groups = group_stage(data, teams, 2, sim_info, 0, 1, len(teams))
     qualified_wc, qualified_icp = progression(groups, 4, 1)
 

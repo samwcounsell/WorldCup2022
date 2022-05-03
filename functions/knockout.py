@@ -27,7 +27,13 @@ def knockout(data, teams, legs, sim_info, WC):
                 data, leg_score = detailed_sim_match(data, participants, WC, sim_info)
 
             print(f"\nFinal Score: {participants[0]} {leg_score[0]} - {leg_score[1]} {participants[1]}")
+
+            if (j % 2) != 0:
+                leg_score.reverse()
+
             score = [a + b for a, b in zip(score, leg_score)]
+            participants = teams[2 * i: 2 * i + 2]
+
 
         if legs > 1:
             print(f"\nAggregate Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
