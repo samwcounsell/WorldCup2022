@@ -1,0 +1,21 @@
+.rc-slider-track {
+  background-color: maroon;
+}
+
+.rc-slider-dot-active {
+  border-color: maroon;
+  border: solid 2px maroon;
+}
+
+.rc-slider-handle {
+  background-color: maroon;
+  border-color: maroon;
+}
+
+.rc-slider-handle:hover {
+  border-color: maroon;
+}
+
+.rc-slider-handle-active:active {
+  border-color: maroon;
+}
