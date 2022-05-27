@@ -19,7 +19,7 @@ def create_navigation():
         brand="Home",
         brand_href="/",
         sticky="top",
-        color="dark",
+        color="maroon",
         dark=True,
     )
 

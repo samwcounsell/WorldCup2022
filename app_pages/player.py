@@ -23,19 +23,17 @@ WC_G_A_data = data.loc[(data['WC_Goals'] > 0) | (data['WC_Assists'] > 0)]
 
 
 # Making the graphs
-conf_colours = ['dimgray', 'darkblue', 'deepskyblue', 'gold', 'violet', 'purple']
+conf_colours = ['peru', 'orange', 'maroon', 'gold', 'indianred', 'lightpink']
 
 Q_GPGvAPG = px.scatter(data, x="qualAPG", y="qualGPG", color="Confederation", color_discrete_sequence=conf_colours,
                        hover_name='Name', size_max=60)
-WC_GPGvAPG = px.scatter(WC_G_A_data, x="WC_APG", y="WC_GPG", color="Confederation",
-                        color_discrete_sequence=conf_colours, hover_name='Name', size='WC_P', size_max=60)
+Q_GPGvAPG.update_layout(plot_bgcolor='rgba(0,0,0,0)')
+Q_GPGvAPG.update_xaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
+Q_GPGvAPG.update_yaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
 
 
 layout = html.Div([
     nav,
-    dbc.Row(
-        dcc.Graph(figure=Q_GPGvAPG, style={'width': '100%', 'height': 1000})
-    ),
     dbc.Row(
         dcc.Graph(id = "gva", style={'width': '100%', 'height': 1000})
     ),
@@ -56,7 +54,12 @@ layout = html.Div([
 def update_bubble(slider_range):
     low, high = slider_range
     mask = (data['WC_P'] > low)
+    # TODO: edit line below to stop "Boolean Series key will be reindexed to match DataFrame index."
+    # TODO: Can be achieved by making a seperate data frame using only True elements
     gva = px.scatter(WC_G_A_data[mask], x="WC_APG", y="WC_GPG", color="Confederation",
                      color_discrete_sequence=conf_colours, hover_name='Name', size = 'WC_P', size_max = 50)
+    gva.update_layout(plot_bgcolor='rgba(0,0,0,0)')
+    gva.update_xaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
+    gva.update_yaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
 
     return gva

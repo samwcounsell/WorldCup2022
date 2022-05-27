@@ -3,6 +3,7 @@ from dash import Dash, dcc, html, Input, Output, callback
 import dash_bootstrap_components as dbc
 from navigation import create_navigation
 import plotly.graph_objects as go
+import plotly.express as px
 import numpy as np
 
 nav = create_navigation()
@@ -25,7 +26,7 @@ for i in range(len(conf)):
                 x=data.loc[data['Confederation'] == conf[i]]["Country"],
                 y=data.loc[data['Confederation'] == conf[i]]["WCGS"],
                 offsetgroup=0,
-                marker_color='dimgray',
+                marker_color='maroon',
                 hovertext=data.loc[data['Confederation'] == conf[i]]["WCGS"]
             ),
             go.Bar(
@@ -34,7 +35,7 @@ for i in range(len(conf)):
                 y=data.loc[data['Confederation'] == conf[i]]["WCR16"],
                 offsetgroup=0,
                 base=data.loc[data['Confederation'] == conf[i]]["WCGS"],
-                marker_color='darkblue',
+                marker_color='firebrick',
                 hovertext=data.loc[data['Confederation'] == conf[i]]["WCR16"]
             ),
             go.Bar(
@@ -43,7 +44,7 @@ for i in range(len(conf)):
                 y=data.loc[data['Confederation'] == conf[i]]["WCR8"],
                 offsetgroup=0,
                 base=[val1 + val2 for val1, val2 in zip(data.loc[data['Confederation'] == conf[i]]["WCGS"], data.loc[data['Confederation'] == conf[i]]["WCR16"])],
-                marker_color = 'mediumblue',
+                marker_color = 'indianred',
                 hovertext=data.loc[data['Confederation'] == conf[i]]["WCR8"]
             ),
             go.Bar(
@@ -53,7 +54,7 @@ for i in range(len(conf)):
                 offsetgroup=0,
                 base=[val1 + val2 + val3 for val1, val2, val3 in zip(data.loc[data['Confederation'] == conf[i]]["WCGS"],
                                                         data.loc[data['Confederation'] == conf[i]]["WCR16"], data.loc[data['Confederation'] == conf[i]]["WCR8"])],
-                marker_color = 'skyblue',
+                marker_color = 'peru',
                 hovertext=data.loc[data['Confederation'] == conf[i]]["WCR4"]
             ),
             go.Bar(
@@ -66,7 +67,7 @@ for i in range(len(conf)):
                                                                          "WCR16"],
                                                                      data.loc[data['Confederation'] == conf[i]][
                                                                          "WCR8"], data.loc[data['Confederation'] == conf[i]]["WCR4"])],
-                marker_color='lightskyblue',
+                marker_color='orange',
                 hovertext=data.loc[data['Confederation'] == conf[i]]["WCF"]
             ),
             go.Bar(
@@ -86,15 +87,45 @@ for i in range(len(conf)):
         ],
         layout=go.Layout(
             yaxis_title="Stage Appearances",
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
             font=dict(
                 size=12,
             )
         )
+
     )
+
+for i in range(len(stacked_figures)):
+    stacked_figures[i].update_layout(title = conf[i])
+    stacked_figures[i].update_xaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
+    stacked_figures[i].update_yaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
+
+
+conf_colours = ['peru', 'orange', 'maroon', 'gold', 'indianred', 'lightpink']
+
+def_fig = px.scatter(data, x = 'Defense', y = 'CS%', trendline="ols", trendline_options=dict(log_x=True),
+                     color = 'Confederation', color_discrete_sequence = conf_colours, hover_name='Country')
+
+def_fig.update_layout(plot_bgcolor='rgba(0,0,0,0)')
+def_fig.update_xaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
+def_fig.update_yaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
 
 
 layout = html.Div([
     nav,
+    html.H1(
+            children='Welcome to the Nation Data analysis',
+            style={'textAlign': 'center', 'padding': 30}
+        ),
+    html.H3(
+            children='Section 1',
+            style={'textAlign': 'center', 'padding': 30}
+        ),
+    html.Div(children='The following plots show how often each country reached each World Cup stage, the graphs are'
+                      ' split by Confederation.',
+                 style={'textAlign': 'center', 'padding': 10}
+        ),
     dbc.Row(
         dcc.Graph(figure = stacked_figures[0], style = {'width': '100%', 'height': 500})
             ),
@@ -112,5 +143,16 @@ layout = html.Div([
             ),
     dbc.Row(
         dcc.Graph(figure = stacked_figures[5], style = {'width': '100%', 'height': 500})
+            ),
+    html.H3(
+            children='Section 2',
+            style={'textAlign': 'center', 'padding': 30}
+        ),
+    html.Div(children='Plots further below begin to become more analytical, investigating the effects of individual'
+                      'parameters on results.',
+                 style={'textAlign': 'center', 'padding': 10}
+        ),
+    dbc.Row(
+        dcc.Graph(figure = def_fig, style = {'width': '100%', 'height': 500})
             ),
 ])

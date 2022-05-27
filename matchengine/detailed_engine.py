@@ -1,5 +1,5 @@
 from scipy.stats import bernoulli
-from functions.match_day_functions import match_data_collection, detailed_sim_goal
+from functions.match_day_functions import match_data_collection, detailed_sim_goal, commentary
 
 import time
 
@@ -29,7 +29,7 @@ def detailed_sim_match(data, participants, WC, sim_info):
             min_score = [bernoulli.rvs(p_home, size=1), bernoulli.rvs(p_away, size=1)]
             score_home, score_away = score_home + min_score[0], score_away + min_score[1]
             if sum(min_score) > 0:
-                detailed_sim_goal(m, min_score, [score_home, score_away], data[1], home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
+                detailed_sim_goal(sim_info, m, min_score, [score_home, score_away], data[1], home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
                             WC)
 
     # For knockout matches ET
@@ -42,7 +42,7 @@ def detailed_sim_match(data, participants, WC, sim_info):
             min_score = [bernoulli.rvs(p_home, size=1), bernoulli.rvs(p_away, size=1)]
             score_home, score_away = score_home + min_score[0], score_away + min_score[1]
             if sum(min_score) > 0:
-                detailed_sim_goal(m, min_score, [score_home, score_away], data[1], home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
+                detailed_sim_goal(sim_info, m, min_score, [score_home, score_away], data[1], home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
                             WC)
 
     # Calculate scorers and assisters

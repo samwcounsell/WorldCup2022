@@ -1,4 +1,7 @@
 import random
+import pandas as pd
+
+lines = pd.read_csv('functions\commentary.csv')
 
 def match_data_collection(data, participants):
     # Retrieve all relevant sim_data from nation_df, player df
@@ -21,7 +24,7 @@ def match_data_collection(data, participants):
     return p_home, home_players, home_atk, home_pass, p_away, away_players, away_atk, away_pass
 
 
-def detailed_sim_goal(minute, min_score, score, player_df, home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
+def detailed_sim_goal(sim_info, minute, min_score, score, player_df, home, home_players, home_atk, home_pass, away, away_players, away_atk, away_pass,
                             WC):
 
     # Home goal
@@ -68,10 +71,21 @@ def detailed_sim_goal(minute, min_score, score, player_df, home, home_players, h
                 player_df.loc[player_df['Name'] == assister, 'WC_Assists'] = player_df.loc[player_df[
                                                                                            'Name'] == assister, 'WC_Assists'] + 1
 
-    # TODO: Add proper commentary for goal...
-    print(f"Goal {minute}, {scorer}, {score[0]} - {score[1]}")
+    if sim_info[1] > 0:
+        print(f"\nGoal {minute}, {scorer}, {score[0]} - {score[1]}")
+        commentary('goal')
+    else:
+        print(f"Goal {minute}, {scorer}, {score[0]} - {score[1]}")
 
     return player_df
 
+
+
+def commentary(type):
+
+    r, c = lines.shape
+    n = random.randint(0, r - 1)
+    line = lines.loc[n, type]
+    print(line)
 
 

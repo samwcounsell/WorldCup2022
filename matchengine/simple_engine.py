@@ -61,7 +61,7 @@ def multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC):
         nation_df.loc[nation_df['Country'] == home, 'WC_GA'] = nation_df.loc[
                                                                    nation_df['Country'] == home, 'WC_GA'] + score_away
 
-    if away == 0:
+    if score_away == 0:
         nation_df.loc[nation_df['Country'] == home, 'Clean_Sheets'] = nation_df.loc[nation_df[
                                                                                         'Country'] == home, 'Clean_Sheets'] + 1
 
@@ -75,7 +75,7 @@ def multi_sim_nation_events(nation_df, home, away, score_home, score_away, WC):
         nation_df.loc[nation_df['Country'] == away, 'WC_GA'] = nation_df.loc[
                                                                    nation_df['Country'] == away, 'WC_GA'] + score_home
 
-    if home == 0:
+    if score_home == 0:
         nation_df.loc[nation_df['Country'] == away, 'Clean_Sheets'] = nation_df.loc[nation_df[
                                                                                         'Country'] == away, 'Clean_Sheets'] + 1
 
