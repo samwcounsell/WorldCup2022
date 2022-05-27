@@ -1,10 +1,9 @@
 import pandas as pd
-from dash import Dash, dcc, html, Input, Output, callback
+from dash import dcc, html
 import dash_bootstrap_components as dbc
-from navigation import create_navigation
+from app_features.navigation import create_navigation
 import plotly.graph_objects as go
 import plotly.express as px
-import numpy as np
 
 nav = create_navigation()
 
@@ -97,7 +96,9 @@ for i in range(len(conf)):
     )
 
 for i in range(len(stacked_figures)):
-    stacked_figures[i].update_layout(title = conf[i])
+    stacked_figures[i].update_layout(title = conf[i],
+                                     xaxis = dict(title = 'Country'),
+                                     yaxis = dict(title = 'Combined Stage Appearances'))
     stacked_figures[i].update_xaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
     stacked_figures[i].update_yaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
 

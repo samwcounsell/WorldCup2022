@@ -1,11 +1,9 @@
-from dash import Dash, dcc, html, Input, Output, callback
+from dash import dcc, html, Input, Output, callback
 import dash_bootstrap_components as dbc
 import plotly.express as px
-import plotly.graph_objects as go
 import pandas as pd
-import math
 
-from navigation import create_navigation
+from app_features.navigation import create_navigation
 
 nav = create_navigation()
 
@@ -56,7 +54,11 @@ def update_bubble(slider_range):
     mask = (data['WC_P'] > low)
     mask_index = mask[mask].index.to_list()
     gva = px.scatter(WC_G_A_data[WC_G_A_data.index.isin(mask_index)], x="WC_APG", y="WC_GPG", color="Confederation",
-                     color_discrete_sequence=conf_colours, hover_name='Name', size = 'WC_P', size_max = 50)
+                     color_discrete_sequence=conf_colours, hover_name='Name', size = 'WC_P', size_max = 50, labels = {
+            'WC_APG': 'Assists per Game (World Cup Finals)',
+            'WC_GPG': 'Goals per Game (World Cup Finals)',
+            'WC_P': 'World Cup Appearances'
+        })
     gva.update_layout(plot_bgcolor='rgba(0,0,0,0)')
     gva.update_xaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
     gva.update_yaxes(showline=True, linewidth=2, linecolor='peru', gridcolor='peru')
