@@ -3,6 +3,14 @@ A redesign of our previous Python World Cup, aiming to simulate the 2022 World C
 
 # Welcome to the Python World Cup 2022 made by samwcounsell and githubkeano.
 
+# Required Packages
+- pandas
+- numpy
+- scipy
+- dash
+- dash-bootstrap-components
+- statsmodels
+
 ## Planned Improvements
 1. Match Engine
    - 1.1. Different match engine for one versus multiple simulations to allow for increased speed when running massive simulations. Using a binomial simulation in place of the Bernoulli trials increases the speed of running multiple World Cup by over 4000%.
