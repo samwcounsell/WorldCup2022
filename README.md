@@ -3,7 +3,7 @@ A redesign of our previous Python World Cup, aiming to simulate the 2022 World C
 
 # Welcome to the Python World Cup 2022 made by samwcounsell and githubkeano.
 
-#= Required Packages
+## Required Packages
 - pandas
 - numpy
 - scipy
