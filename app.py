@@ -10,7 +10,7 @@ app.layout = html.Div([
     html.Div(id='page-content')
 ])
 
-
+# Updating app when user selects specific page
 @callback(Output('page-content', 'children'),
           Input('url', 'pathname'))
 def display_page(pathname):
