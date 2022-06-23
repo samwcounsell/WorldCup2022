@@ -2,6 +2,10 @@ import pandas as pd
 
 
 def choose_type():
+# returns 2 lists of length 2, data and then sim_info,
+# sim_info defines detail level of simulations and delay for the qualifiers
+
+    # default delay is 0
     delay = 0
 
     nation_data, player_data = pd.read_csv('sim_data/nation_data.csv'), pd.read_csv(
@@ -30,8 +34,9 @@ def choose_type():
         delay = input('Choose your time delay for qualifying, 0 is recommended: ')
 
     data = [nation_data, player_data]
+    sim_info = [sim_type, float(delay)]
 
-    return data, sim_type, delay
+    return data, sim_info
 
 
 def choose_num():

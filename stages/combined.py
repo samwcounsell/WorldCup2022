@@ -16,6 +16,7 @@ def worldcup_simulation(data, sim_info, sim_num):
 
         data, wc_teams = complete_qualifiers(data, sim_info)
 
+        # TODO: Actually stop people putting in non numbers without error as is done at start
         if sim_info[0] == 0:
             sim_info[1] = float(input('Choose delay for World Cup Finals: '))
 

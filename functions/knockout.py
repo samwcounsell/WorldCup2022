@@ -22,9 +22,9 @@ def knockout(data, teams, legs, sim_info, WC):
 
             # Running the match
             if sim_info[0] > 0:
-                data, leg_score = multi_sim_match(data, participants, WC, sim_info)
+                data, leg_score = multi_sim_match(data, participants, WC, sim_info, 'K', j)
             else:
-                data, leg_score = detailed_sim_match(data, participants, WC, sim_info)
+                data, leg_score = detailed_sim_match(data, participants, WC, sim_info, 'K', j)
 
             print(f"\nFinal Score: {participants[0]} {leg_score[0]} - {leg_score[1]} {participants[1]}")
 
@@ -46,12 +46,13 @@ def knockout(data, teams, legs, sim_info, WC):
 
         else:
             if sim_info[0] > 0:
-                data, leg_score = multi_sim_match(data, participants, WC, [sim_info[0] + 2, sim_info[1]])
+                data, leg_score = multi_sim_match(data, participants, WC, [sim_info[0] + 2, sim_info[1], 'N'], 'ET', 0)
             else:
-                data, leg_score = detailed_sim_match(data, participants, WC, [sim_info[0] + 2, sim_info[1]])
+                data, leg_score = detailed_sim_match(data, participants, WC, [sim_info[0] + 2, sim_info[1], 'N'], 'ET', 0)
 
-            print(f"\nET Final Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
+            # print(f"\nET Final Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
             score = [a + b for a, b in zip(score, leg_score)]
+            print(f"\nET Final Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
 
             if score[0] > score[1]:
                     qualified.append(participants[0])

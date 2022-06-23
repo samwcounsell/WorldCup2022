@@ -1,5 +1,7 @@
-import random, time, pandas as pd
+import random, webbrowser, time, pandas as pd
+import numpy as np
 
+stadiums = pd.read_csv('./sim_data/stadiums.csv')
 
 def worldcup_draw(data, teams, sim_info):
 
@@ -99,3 +101,24 @@ def worldcup_draw(data, teams, sim_info):
     return groups
 
 
+def knockout_fixture_list(teams):
+
+    n = int(len(teams) / 2)
+    for i in range(n):
+        print(f"\n{teams[2 * i]} v {teams[2 * i + 1]}")
+
+    input("\nPress any button to continue: ")
+
+
+def stadium_info(WC):
+
+    x = random.randint(0, 7)
+    name, city, attendance, link = stadiums.loc[x, 'Name'], stadiums.loc[x, 'City'], \
+                             np.random.normal(stadiums.loc[x, 'Capacity'] * 0.9, stadiums.loc[x, 'Capacity']), stadiums.loc[x, 'Link']
+
+    if WC == 2:
+        input("\nPress any button to take a Stadium Tour: ")
+        webbrowser.open(link)
+        input("\nPres any button to enter the Stadium")
+
+    print(f"\nWelcome to today's game here at {name} in {city}. The attendance currently stands at {int(attendance)}")

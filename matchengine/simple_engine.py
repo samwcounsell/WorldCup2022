@@ -5,7 +5,7 @@ import random
 
 
 # multi_sim_match runs the whole match as part of multiple World Cup simulations
-def multi_sim_match(data, participants, WC, sim_info):
+def multi_sim_match(data, participants, WC, sim_info, stage, leg):
     # run match_data_retrieval here
     # import not required
     # return p_home, p_away, player_lists and their ratings

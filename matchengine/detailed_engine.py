@@ -1,11 +1,11 @@
 from scipy.stats import bernoulli
 from functions.match_day_functions import match_data_collection, detailed_sim_goal, commentary
-
+from functions. worldcup_functions import stadium_info
 import time
 
 
 # single_sim_match runs the whole match as part of a detailed World Cup simulations
-def detailed_sim_match(data, participants, WC, sim_info):
+def detailed_sim_match(data, participants, WC, sim_info, stage, leg):
     # run match_data_retrieval here
     # import not required
     # return p_home, p_away, player_lists and their ratings
@@ -14,13 +14,20 @@ def detailed_sim_match(data, participants, WC, sim_info):
     home, away = participants[0], participants[1]
 
     # TODO: Add proper match introduction
-    print(f"\n{home} v {away}:")
 
     p_home, home_players, home_atk, home_pass, p_away, away_players, away_atk, away_pass = match_data_collection(
         data, participants)
 
     # Running binomial simulation with size 90
+    if WC > 0 and sim_info[0] == 0:
+        stadium_info()
+
     if sim_info[0] < 2:
+
+        if stage == 'K':
+            print(f"\n{home} v {away} (Leg {leg + 1}) :")
+        else:
+            print(f"\n{home} v {away}:")
 
         score_home, score_away = 0, 0
 
@@ -34,6 +41,8 @@ def detailed_sim_match(data, participants, WC, sim_info):
 
     # For knockout matches ET
     if sim_info[0] > 1:
+
+        print("ET Kick Off: ")
 
         score_home, score_away = 0, 0
 

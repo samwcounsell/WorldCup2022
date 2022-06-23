@@ -5,7 +5,13 @@ from matchengine.simple_engine import multi_sim_match
 from matchengine.detailed_engine import detailed_sim_match
 from functions.worldcup_functions import worldcup_draw
 
+
+# Main group-stage function containing the sub-functions
 def group_stage(data, teams, legs, sim_info, WC, group_number, group_size):
+# data is a list containing nation and player data, teams is a list of length group_number * group_size,
+# legs is integer number of times teams play eachother, sim_info is list of length 2, WC is an integer 0, 1, 2,
+# group_number and group_size are integers
+
 
     if WC == 0:
         groups = group_draw(group_number, group_size, teams)
@@ -111,9 +117,9 @@ def group_simulation(data, teams, legs, sim_info, WC):
                     pass
                 else:
                     if sim_info[0] > 0:
-                        data, score = multi_sim_match(data, participants, WC, sim_info)
+                        data, score = multi_sim_match(data, participants, WC, sim_info, 'G', 0)
                     else:
-                        data, score = detailed_sim_match(data, participants, WC, sim_info)
+                        data, score = detailed_sim_match(data, participants, WC, sim_info, 'G', 0)
 
                     print(f"\nFinal Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
                     # if sim == 0:
@@ -133,9 +139,9 @@ def group_simulation(data, teams, legs, sim_info, WC):
                     pass
                 else:
                     if sim_info[0] > 0:
-                        data, score = multi_sim_match(data, participants, WC, sim_info)
+                        data, score = multi_sim_match(data, participants, WC, sim_info, 'G', 0)
                     else:
-                        data, score = detailed_sim_match(data, participants, WC, sim_info)
+                        data, score = detailed_sim_match(data, participants, WC, sim_info, 'G', 0)
 
                     print(f"\nFinal Score: {participants[0]} {score[0]} - {score[1]} {participants[1]}")
                     # if sim == 0:

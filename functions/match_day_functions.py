@@ -1,7 +1,7 @@
 import random
 import pandas as pd
 
-lines = pd.read_csv('functions\commentary.csv')
+lines = pd.read_csv('sim_data\commentary.csv')
 
 def match_data_collection(data, participants):
     # Retrieve all relevant sim_data from nation_df, player df
@@ -71,11 +71,20 @@ def detailed_sim_goal(sim_info, minute, min_score, score, player_df, home, home_
                 player_df.loc[player_df['Name'] == assister, 'WC_Assists'] = player_df.loc[player_df[
                                                                                            'Name'] == assister, 'WC_Assists'] + 1
 
-    if sim_info[1] > 0:
-        print(f"\nGoal {minute}, {scorer}, {score[0]} - {score[1]}")
-        commentary('goal')
-    else:
-        print(f"Goal {minute}, {scorer}, {score[0]} - {score[1]}")
+    if sim_info[0] % 2 == 0:
+
+        if sim_info[1] > 0:
+            if sim_info[0] == 0:
+                print(f"\nGoal {minute}, {scorer}, {score[0]} - {score[1]}")
+                commentary('goal')
+            else:
+                print(f"\nGoal {minute + 90}, {scorer}, {score[0]} - {score[1]}")
+                commentary('goal')
+        else:
+            if sim_info[0] == 0:
+                print(f"\nGoal {minute}, {scorer}, {score[0]} - {score[1]}")
+            else:
+                print(f"\nGoal {minute + 90}, {scorer}, {score[0]} - {score[1]}")
 
     return player_df
 

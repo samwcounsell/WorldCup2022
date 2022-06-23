@@ -36,6 +36,6 @@ def caf(data, sim_info):
     print(f"\nQualified for the World Cup: {', '.join(qualified_wc)}")
 
     # Awards
-    confederation_awards("CAF", data)
+    confederation_awards("CAF", data, sim_info)
 
     return qualified_wc

@@ -14,7 +14,7 @@ def confederation_introduction(confederation, data):
     print(f"\nThe favourites to qualify for the World Cup are {', '.join(df.loc[0:1]['Country'].to_list())} and {df.loc[2]['Country']}")
 
 
-def confederation_awards(confederation, data):
+def confederation_awards(confederation, data, sim_info):
 
     confederation_df = data[1].loc[data[1]['Confederation'] == confederation]
 
@@ -23,3 +23,6 @@ def confederation_awards(confederation, data):
 
     print(f"\nThe top goalscorer is {goal_df.loc[0]['Name']} with {goal_df.loc[0]['Goals']} goals in {goal_df.loc[0]['P']} games.")
     print(f"\nThe top playmaker is {assist_df.loc[0]['Name']} with {assist_df.loc[0]['Assists']} assists in {assist_df.loc[0]['P']} games.")
+
+    if sim_info[0] == 0:
+        input("\nPress any button to continue: ")

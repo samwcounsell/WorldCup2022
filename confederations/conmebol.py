@@ -23,6 +23,6 @@ def conmebol(data, sim_info):
     print(f"\nQualified for the Inter-Continental Play Off: {''.join(qualified_icp)}")
 
     # Awards
-    confederation_awards("CONMEBOL", data)
+    confederation_awards("CONMEBOL", data, sim_info)
 
     return qualified_wc, qualified_icp

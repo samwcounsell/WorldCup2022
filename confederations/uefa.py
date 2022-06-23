@@ -42,6 +42,6 @@ def uefa(data, sim_info):
     print(f"\nQualified for the World Cup from UEFA: {', '.join(qualified_wc)}")
 
     # Awards
-    confederation_awards("UEFA", data)
+    confederation_awards("UEFA", data, sim_info)
 
     return qualified_wc

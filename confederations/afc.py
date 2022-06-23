@@ -45,6 +45,6 @@ def afc(data, sim_info):
     print(f"\nQualified for the Inter-Continental Play Off: {''.join(qualified_icp)}")
 
     # Awards
-    confederation_awards("AFC", data)
+    confederation_awards("AFC", data, sim_info)
 
     return qualified_wc, qualified_icp
